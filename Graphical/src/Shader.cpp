@@ -8,48 +8,31 @@
 #include <GL/glew.h>
 
 
-std::tuple<const std::string, const std::string> Shader::ParseShader(const std::string& shaderSourcePath)
+std::string Shader::ParseShader(const std::string& shaderSourcePath)
 {
-	enum class ShaderType
-	{
-		Error = -1, Vertex, Fragment
-	};
-
 	std::ifstream shaderSourceFile(shaderSourcePath);
-	std::stringstream shaderSource[2];
+	std::stringstream shaderSource;
 
 	std::string line;
 
-	ShaderType st = ShaderType::Error;
+
 	while (std::getline(shaderSourceFile, line))
 	{
-		if (line.find("#type") != std::string::npos)
-		{
-			if (line.find("vertex") != std::string::npos)
-			{
-				st = ShaderType::Vertex;
-			}
-			else if (line.find("fragment") != std::string::npos)
-			{
-				st = ShaderType::Fragment;
-			}
-		}
-		else
-		{
-			shaderSource[(int)st] << line << '\n';
-		}
+		shaderSource << line << '\n';
 	}
 
 	//shaderSourceFile.close();
-	return std::tuple<std::string, std::string>{shaderSource[0].str(), shaderSource[1].str()};
+	return shaderSource.str();
 }
 
-unsigned int Shader::CompileShader(unsigned int shaderType, const std::string& source)
+unsigned int Shader::CompileShader(unsigned int shaderType, const std::string& path)
 {
-	const char* sourceToChar = source.c_str();
-	std::cout << sourceToChar << std::endl;
+	 std::string parcedShader = ParseShader(path);
+	 const char* shaderSource = parcedShader.c_str();
+	//const char* sourceToChar = source.c_str();
+	std::cout << shaderSource << std::endl;
 	unsigned int s = glCreateShader(shaderType);
-	glShaderSource(s, 1, &sourceToChar, NULL);
+	glShaderSource(s, 1, &shaderSource, NULL);
 	glCompileShader(s);
 
 	ShaderSuccess(s);
@@ -77,10 +60,9 @@ unsigned int Shader::CreateShaderProgram(unsigned int vertexShader, unsigned int
 	return s;
 }
 
-void Shader::DeleteShaders(unsigned int& s1, unsigned int& s2)
+void Shader::DeleteShaders(unsigned int& s)
 {
-	glDeleteShader(s1);
-	glDeleteShader(s2);
+	glDeleteShader(s);
 }
 
 void Shader::ShaderSuccess(unsigned int shader)

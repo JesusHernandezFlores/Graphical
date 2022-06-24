@@ -14,14 +14,13 @@ public:
 		return s_Instance;
 	}
 
-	std::tuple<const std::string, const std::string> ParseShader(const std::string& shaderSourcePath);
-
 	unsigned int CompileShader(unsigned int shaderType, const std::string& shaderSource);
 	unsigned int CreateShaderProgram(unsigned int vertexShader, unsigned int fragmentShader);
-	void DeleteShaders(unsigned int& s1, unsigned int& s2);
+	void DeleteShaders(unsigned int& s);
 
 private:
 	void ShaderSuccess(unsigned int shader);
+	std::string ParseShader(const std::string& shaderSourcePath);
 
 private:
 	Shader() {}

@@ -1,10 +1,12 @@
 #include "VertexBuffer.h"
+#include <iostream>
 #include <GL/glew.h>
 
 namespace Graphical
 {
 	VertexBuffer::VertexBuffer()
 	{
+		std::cout << "Generating Vertex Buffers" << std::endl;
 		glGenBuffers(1, &VBO);
 	}
 
@@ -18,9 +20,6 @@ namespace Graphical
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
-	void VertexBuffer::LoadData(void* data)
-	{
-		glBufferData(GL_ARRAY_BUFFER, sizeof(data), data, GL_STATIC_DRAW);
-	}
+
 }
 

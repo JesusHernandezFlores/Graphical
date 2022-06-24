@@ -1,17 +1,16 @@
 #pragma once
-#include <vector>
 #include <gl/glew.h>
 
 namespace Graphical
 {
-	class VertexBuffer
+	class ElementBuffer
 	{
 	public:
-		VertexBuffer();
+		ElementBuffer();
 		void Bind();
 		void Unbind();
 
 	private:
-		unsigned int VBO;
+		unsigned int EBO;
 	};
 }

@@ -143,6 +143,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\ElementBuffer.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\ShaderProgramCompiler.cpp" />
@@ -150,6 +151,9 @@
     <ClCompile Include="src\VertexBuffercpp.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ShaderUtilities.h" />
+    <ClInclude Include="src\BufferUtils.h" />
+    <ClInclude Include="src\ElementBuffer.h" />
     <ClInclude Include="src\Shader.h" />
     <ClInclude Include="src\ShaderProgramCompiler.h" />
     <ClInclude Include="src\Utilities.h" />
