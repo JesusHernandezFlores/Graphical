@@ -33,6 +33,12 @@
     <ClCompile Include="src\ElementBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\ShaderHelper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ShaderUtilities.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ShaderProgramCompiler.h">
@@ -53,7 +59,10 @@
     <ClInclude Include="src\ElementBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ShaderUtilities.h">
+    <ClInclude Include="src\ShaderUtilities.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ShaderHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

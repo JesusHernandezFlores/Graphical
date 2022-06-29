@@ -3,11 +3,12 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-#include "Shader.h"
+#include "ShaderHelper.h"
 #include "Utilities.h"
 #include "VertexBuffer.h"
 #include "ElementBuffer.h"
 #include "BufferUtils.h"
+#include "Shader.h"
 
 using namespace Graphical;
 
@@ -26,21 +27,22 @@ int main(void)
     Graphical::GraphicalUtilities::GLEWSetup();
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////////
-    Shader& i_Shader = Shader::GetInstance();
 
-	unsigned int vertexShader = i_Shader.CompileShader(GL_VERTEX_SHADER, "Triangle.vertex.txt");
-	unsigned int fragmentShader = i_Shader.CompileShader(GL_FRAGMENT_SHADER, "Yellow.fragment.txt");
-    unsigned int blueFS = i_Shader.CompileShader(GL_FRAGMENT_SHADER, "Blue.fragment.txt");
-    unsigned int redVS = i_Shader.CompileShader(GL_VERTEX_SHADER, "Red.vertex.txt");
-    unsigned int redFS = i_Shader.CompileShader(GL_FRAGMENT_SHADER, "Red.fragment.txt");
+    Shader s;
+    s.PassShader(GL_VERTEX_SHADER, "Triangle.vertex.txt");
+    s.PassShader(GL_FRAGMENT_SHADER, "Yellow.fragment.txt");
+    s.CreateShaderProgram();
 
-	unsigned int yellowTriangle = i_Shader.CreateShaderProgram(vertexShader, fragmentShader);
-    unsigned int blueTriangle = i_Shader.CreateShaderProgram(vertexShader, blueFS);
-    unsigned int redTriangle = i_Shader.CreateShaderProgram(redVS, redFS);
+    Shader b;
+    b.PassShader(GL_VERTEX_SHADER, "Triangle.vertex.txt");
+    b.PassShader(GL_FRAGMENT_SHADER, "Blue.fragment.txt");
+    b.CreateShaderProgram();
 
-    i_Shader.DeleteShaders(fragmentShader);
-    i_Shader.DeleteShaders(blueFS);
-    i_Shader.DeleteShaders(vertexShader);
+    Shader red;
+    red.PassShader(GL_VERTEX_SHADER, "Red.vertex.txt");
+    red.PassShader(GL_FRAGMENT_SHADER, "Red.fragment.txt");
+    red.CreateShaderProgram();
+
 
     /*float vertices[] = {
         -0.5f, -0.5f, 0.0f,
@@ -133,8 +135,8 @@ int main(void)
         timeValue = glfwGetTime();
         greenValue = (sin(timeValue) / 2.0f) + 0.5f;
         //vertexColorLocation = glGetUniformLocation(redTriangle, "vertexColor");
-        vertexOffsetLocation = glGetUniformLocation(redTriangle, "offset");
-        glUseProgram(redTriangle);
+        vertexOffsetLocation = glGetUniformLocation(red.GetShader(), "offset");
+        red.UseShader();
         //glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
         glUniform1f(vertexOffsetLocation, offset);
         glBindVertexArray(VAOs[0]);
@@ -142,7 +144,7 @@ int main(void)
         //glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
 
-        glUseProgram(blueTriangle);
+        b.UseShader();
 		glBindVertexArray(VAOs[1]);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
         glBindVertexArray(0);

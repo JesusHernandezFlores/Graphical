@@ -1,27 +1,27 @@
 #pragma once
 #include <string>
 
-class Shader
+namespace Graphical
 {
-public:
-	Shader(const Shader&) = delete;
-	Shader operator=(Shader& other) = delete;
-
-
-	static Shader& GetInstance()
+	class Shader
 	{
-		static Shader s_Instance;
-		return s_Instance;
-	}
+	public:
+		Shader();
+		~Shader();
 
-	unsigned int CompileShader(unsigned int shaderType, const std::string& shaderSource);
-	unsigned int CreateShaderProgram(unsigned int vertexShader, unsigned int fragmentShader);
-	void DeleteShaders(unsigned int& s);
+		void PassShader(unsigned int type, const std::string& sourcePath);
+		void CreateShaderProgram();
+		void UseShader();
 
-private:
-	void ShaderSuccess(unsigned int shader);
-	std::string ParseShader(const std::string& shaderSourcePath);
+		unsigned int GetShader();
+	
+	private:
+		unsigned int shaderID;
+		unsigned int vertexShader;
+		unsigned int fragmentShader;
 
-private:
-	Shader() {}
-};
+	private:
+		static std::string ParseShader(const std::string& path);
+		static void ShaderSuccess(unsigned int shader);
+	};
+}
