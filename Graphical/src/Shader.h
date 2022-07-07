@@ -9,7 +9,7 @@ namespace Graphical
 		Shader();
 		~Shader();
 
-		void PassShader(unsigned int type, const std::string& sourcePath);
+		void PassShader(const std::string& sourcePath);
 		void CreateShaderProgram();
 		void UseShader();
 

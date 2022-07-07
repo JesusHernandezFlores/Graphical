@@ -3,12 +3,19 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
+
+
 #include "ShaderHelper.h"
 #include "Utilities.h"
 #include "VertexBuffer.h"
 #include "ElementBuffer.h"
+#include "VertexArray.h"
 #include "BufferUtils.h"
 #include "Shader.h"
+#include "Texture2D.h"
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+#include "glm/gtc/type_ptr.hpp"
 
 using namespace Graphical;
 
@@ -28,27 +35,10 @@ int main(void)
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////////
 
-    Shader s;
-    s.PassShader(GL_VERTEX_SHADER, "Triangle.vertex.txt");
-    s.PassShader(GL_FRAGMENT_SHADER, "Yellow.fragment.txt");
-    s.CreateShaderProgram();
-
-    Shader b;
-    b.PassShader(GL_VERTEX_SHADER, "Triangle.vertex.txt");
-    b.PassShader(GL_FRAGMENT_SHADER, "Blue.fragment.txt");
-    b.CreateShaderProgram();
-
-    Shader red;
-    red.PassShader(GL_VERTEX_SHADER, "Red.vertex.txt");
-    red.PassShader(GL_FRAGMENT_SHADER, "Red.fragment.txt");
-    red.CreateShaderProgram();
-
-
-    /*float vertices[] = {
-        -0.5f, -0.5f, 0.0f,
-         0.5f, -0.5f, 0.0f,
-         0.0f,  0.5f, 0.0f
-    };*/
+    Shader triangleTex;
+    triangleTex.PassShader("TriangleTex.vertex.txt");
+    triangleTex.PassShader("TriangleTex.fragment.txt");
+    triangleTex.CreateShaderProgram();
     
     float vertices[] = {
          0.5f,  0.5f, 0.0f,
@@ -59,9 +49,9 @@ int main(void)
     
     float triangle1[] = {
 		// first triangle
-		-0.9f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, // left 
-		-0.0f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,// right
-		-0.45f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f // top 
+		-0.9f, -0.5f, 0.0f,    1.0f, 0.0f, 0.0f, // left 
+		-0.0f, -0.5f, 0.0f,    0.0f, 1.0f, 0.0f,// right
+		-0.45f, 0.5f, 0.0f,    0.0f, 0.0f, 1.0f // top 
 	};
 
     unsigned int triangle1Inices[] = {
@@ -76,52 +66,126 @@ int main(void)
 		 0.45f, 0.5f, 0.0f   // top 
     };
 
+
+    float texCoords[] = {
+        0.0f, 0.0f,
+        1.0f, 0.0f,
+        0.5f, 1.0f
+    };
+
+    /*float texTriangle[] = {
+         0.5f,  0.5f, 0.0f,    1.0f, 0.0f, 0.0f,    1.0f, 1.0f,
+         0.5f, -0.5f, 0.0f,    0.0f, 1.0f, 0.0f,    1.0f, 0.0f,
+        -0.5f, -0.5f, 0.0f,    0.0f, 0.0f, 1.0f,    0.0f, 0.0f,
+        -0.5f,  0.5f, 0.0f,    1.0f, 1.0f, 0.0f,    0.0f, 1.0f
+    };*/
+
+    float texTriangle[] = {
+    -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,    
+     0.5f, -0.5f, -0.5f,  1.0f, 0.0f,    
+     0.5f,  0.5f, -0.5f,  1.0f, 1.0f,    
+     0.5f,  0.5f, -0.5f,  1.0f, 1.0f,    
+    - 0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+
+    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+     0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+     0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+     0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+    -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+
+    -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+    -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+    -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+     0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+     0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+     0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+     0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+     0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+     0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+     0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
+     0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+     0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+
+    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+     0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+     0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+     0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+    -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
+    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+    };
+
     unsigned int indices[] = {
         0, 1, 3,
         1, 2, 3
     };
 
-    unsigned int VAOs[2];
-    //ElementBuffer ebo;
+	glm::vec3 cubePositions[] = {
+	glm::vec3(0.0f,  0.0f,  0.0f),
+	glm::vec3(2.0f,  5.0f, -15.0f),
+	glm::vec3(-1.5f, -2.2f, -2.5f),
+	glm::vec3(-3.8f, -2.0f, -12.3f),
+	glm::vec3(2.4f, -0.4f, -3.5f),
+	glm::vec3(-1.7f,  3.0f, -7.5f),
+	glm::vec3(1.3f, -2.0f, -2.5f),
+	glm::vec3(1.5f,  2.0f, -2.5f),
+	glm::vec3(1.5f,  0.2f, -1.5f),
+	glm::vec3(-1.3f,  1.0f, -1.5f)
+	};
+
+    VertexArray vao;
+    ElementBuffer ebo;
     VertexBuffer vbo[2];
-    glGenVertexArrays(2, VAOs);
-    
-    glBindVertexArray(VAOs[0]);
 
+    vao.Bind();
+   
     vbo[0].Bind();
-    BufferUtils::LoadVertexData(triangle1);
-
-	/*ebo.Bind();
-	BufferUtils::LoadElementData(triangle1Inices)*/;
-    
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+    ebo.Bind();
+    BufferUtils::LoadVertexData(texTriangle);
+    BufferUtils::LoadElementData(indices);
+   
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
+
+    Texture2D brickTex;
+    brickTex.Bind();
+
+    brickTex.SetWrapType(TexCoords::S, WrapType::Repeat);
+    brickTex.SetWrapType(TexCoords::T, WrapType::Repeat);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+    brickTex.SetTextureImage("container.jpg");
+
     
+    Texture2D circuitTex;
+    circuitTex.Bind();
 
-    vbo[0].Unbind();
-    //ebo.Unbind();
+	circuitTex.SetWrapType(TexCoords::S, WrapType::Repeat);
+	circuitTex.SetWrapType(TexCoords::T, WrapType::Repeat);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    glBindVertexArray(0);
+    circuitTex.SetTextureImage("awesomeface.png");
 
-    glBindVertexArray(VAOs[1]);
-    vbo[1].Bind();
-    BufferUtils::LoadVertexData(triangle2);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
-
-    vbo[1].Unbind();
-    glBindVertexArray(0);
-
-
+    triangleTex.UseShader();
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-    float timeValue;
-    float greenValue;
-    int vertexColorLocation;
-    float offset = .01f;
-    int vertexOffsetLocation;
+    glUniform1i(glGetUniformLocation(triangleTex.GetShader(), "texture1"), 0);
+    glUniform1i(glGetUniformLocation(triangleTex.GetShader(), "texture2"), 1);
+
+    glEnable(GL_DEPTH_TEST);
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
@@ -129,24 +193,35 @@ int main(void)
 
         /* Render here */
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        
-        timeValue = glfwGetTime();
-        greenValue = (sin(timeValue) / 2.0f) + 0.5f;
-        //vertexColorLocation = glGetUniformLocation(redTriangle, "vertexColor");
-        vertexOffsetLocation = glGetUniformLocation(red.GetShader(), "offset");
-        red.UseShader();
-        //glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
-        glUniform1f(vertexOffsetLocation, offset);
-        glBindVertexArray(VAOs[0]);
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        //brickTex.Bind();
+
+        Texture2D::SetActiveTexture(0);
+        brickTex.Bind();
+        Texture2D::SetActiveTexture(1);
+        circuitTex.Bind();
+
+        unsigned int modelLoc = glGetUniformLocation(triangleTex.GetShader(), "model");
+        unsigned int viewLoc = glGetUniformLocation(triangleTex.GetShader(), "view");
+        unsigned int projLoc = glGetUniformLocation(triangleTex.GetShader(), "projection");
+
+        triangleTex.UseShader();
+        vao.Bind();
+
+        glm::mat4 model = glm::mat4(1.0f);
+        model = glm::rotate(model, (float)glfwGetTime(), glm::vec3(0.5f, 1.0f, 0.0f));
+
+        glm::mat4 view = glm::mat4(1.0f);
+        view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+
+        glm::mat4 projection = glm::mat4(1.0f);
+        projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
+        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+        glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+        glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
+        glDrawArrays(GL_TRIANGLES, 0, 36);
         //glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-        glBindVertexArray(0);
-
-        b.UseShader();
-		glBindVertexArray(VAOs[1]);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
         glBindVertexArray(0);
         //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 
@@ -155,7 +230,6 @@ int main(void)
 
         /* Poll for and process events */
         glfwPollEvents();
-        offset += .001f;
     }
     glfwTerminate();
     return 0;

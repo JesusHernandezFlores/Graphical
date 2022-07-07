@@ -149,7 +149,9 @@
     <ClCompile Include="src\ShaderHelper.cpp" />
     <ClCompile Include="src\ShaderProgramCompiler.cpp" />
     <ClCompile Include="src\ShaderUtilities.cpp" />
+    <ClCompile Include="src\Texture2D.cpp" />
     <ClCompile Include="src\Utilities.cpp" />
+    <ClCompile Include="src\VertexArray.cpp" />
     <ClCompile Include="src\VertexBuffercpp.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -159,8 +161,11 @@
     <ClInclude Include="src\Shader.h" />
     <ClInclude Include="src\ShaderHelper.h" />
     <ClInclude Include="src\ShaderProgramCompiler.h" />
+    <ClInclude Include="src\stb_image.h" />
+    <ClInclude Include="src\Texture2D.h" />
     <ClInclude Include="src\Utilities.h" />
     <ClInclude Include="src\VertexBuffer.h" />
+    <ClInclude Include="src\VertexArray.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

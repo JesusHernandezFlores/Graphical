@@ -34,18 +34,18 @@ namespace Graphical
 		return shaderID;
 	}
 
-	void Shader::PassShader(unsigned int type, const std::string& sourcePath)
+	void Shader::PassShader(const std::string& sourcePath)
 	{
 		std::string parcedShader = ParseShader(sourcePath);
 		const char* shaderSource = parcedShader.c_str();
 		
-		if (type == GL_VERTEX_SHADER)
+		if (sourcePath.find(".vertex") != std::string::npos)
 		{
 			glShaderSource(vertexShader, 1, &shaderSource, NULL);
 			glCompileShader(vertexShader);
 			ShaderSuccess(vertexShader);
 		}
-		else if (type == GL_FRAGMENT_SHADER)
+		else if (sourcePath.find(".fragment") != std::string::npos)
 		{
 			glShaderSource(fragmentShader, 1, &shaderSource, NULL);
 			glCompileShader(fragmentShader);
