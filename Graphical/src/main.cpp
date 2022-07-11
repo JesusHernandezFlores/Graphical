@@ -1,21 +1,22 @@
+//std libraries
 #include <string>
 
+//3rd party includes
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
+#include "ThirdParty/glm/glm.hpp"
+#include "ThirdParty/glm/gtc/matrix_transform.hpp"
+#include "ThirdParty/glm/gtc/type_ptr.hpp"
 
-
-#include "ShaderHelper.h"
+//src includes
 #include "Utilities.h"
-#include "VertexBuffer.h"
-#include "ElementBuffer.h"
+#include "Buffers/VertexBuffer.h"
+#include "Buffers/ElementBuffer.h"
 #include "VertexArray.h"
-#include "BufferUtils.h"
-#include "Shader.h"
+#include "Buffers/BufferUtils.h"
+#include "Shader/Shader.h"
 #include "Texture2D.h"
-#include "glm/glm.hpp"
-#include "glm/gtc/matrix_transform.hpp"
-#include "glm/gtc/type_ptr.hpp"
 
 using namespace Graphical;
 

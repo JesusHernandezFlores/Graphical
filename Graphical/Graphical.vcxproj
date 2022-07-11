@@ -143,28 +143,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\ElementBuffer.cpp" />
+    <ClCompile Include="src\Buffers\ElementBuffer.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\Shader.cpp" />
-    <ClCompile Include="src\ShaderHelper.cpp" />
-    <ClCompile Include="src\ShaderProgramCompiler.cpp" />
-    <ClCompile Include="src\ShaderUtilities.cpp" />
+    <ClCompile Include="src\Shader\Shader.cpp" />
     <ClCompile Include="src\Texture2D.cpp" />
     <ClCompile Include="src\Utilities.cpp" />
     <ClCompile Include="src\VertexArray.cpp" />
-    <ClCompile Include="src\VertexBuffercpp.cpp" />
+    <ClCompile Include="src\Buffers\VertexBuffercpp.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\ShaderUtilities.h" />
-    <ClInclude Include="src\BufferUtils.h" />
-    <ClInclude Include="src\ElementBuffer.h" />
-    <ClInclude Include="src\Shader.h" />
-    <ClInclude Include="src\ShaderHelper.h" />
-    <ClInclude Include="src\ShaderProgramCompiler.h" />
-    <ClInclude Include="src\stb_image.h" />
+    <ClInclude Include="src\Buffers\BufferUtils.h" />
+    <ClInclude Include="src\Buffers\ElementBuffer.h" />
+    <ClInclude Include="src\Shader\Shader.h" />
+    <ClInclude Include="src\Shader\ShaderUtils.h" />
+    <ClInclude Include="src\ThirdParty\stb_image.h" />
     <ClInclude Include="src\Texture2D.h" />
     <ClInclude Include="src\Utilities.h" />
-    <ClInclude Include="src\VertexBuffer.h" />
+    <ClInclude Include="src\Buffers\VertexBuffer.h" />
     <ClInclude Include="src\VertexArray.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

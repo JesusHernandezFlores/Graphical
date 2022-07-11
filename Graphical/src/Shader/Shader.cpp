@@ -6,9 +6,6 @@
 #include <iostream>
 #include "Shader.h"
 #include <GL/glew.h>
-#include "ShaderUtilities.h"
-
-namespace ShaderUtils = Utilities::ShaderUtilities;
 
 namespace Graphical
 {
@@ -100,5 +97,70 @@ namespace Graphical
 			glGetShaderInfoLog(shader, 512, NULL, infoLog);
 			std::cout << "Shader Compile Error: " << infoLog << std::endl;
 		}
+	}
+
+	void Shader::SetFloat(char* varName, float a)
+	{
+		glUniform1f(glGetUniformLocation(shaderID, varName), a);
+	}
+
+	void Shader::SetFloat(char* varName, float a, float b)
+	{
+		glUniform2f(glGetUniformLocation(shaderID, varName), a, b);
+	}
+
+	void Shader::SetFloat(char* varName, float a, float b, float c)
+	{
+		glUniform3f(glGetUniformLocation(shaderID, varName), a, b, c);
+	}
+
+	void Shader::SetFloat(char* varName, float a, float b, float c, float d)
+	{
+		glUniform4f(glGetUniformLocation(shaderID, varName), a, b, c, d);
+	}
+
+	void Shader::SetInt(char* varName, int a)
+	{
+		glUniform1i(glGetUniformLocation(shaderID, varName), a);
+	}
+	
+	void Shader::SetInt(char* varName, int a, int b)
+	{
+		glUniform2i(glGetUniformLocation(shaderID, varName), a, b);
+	}
+
+	void Shader::SetInt(char* varName, int a, int b, int c)
+	{
+		glUniform3i(glGetUniformLocation(shaderID, varName), a, b, c);
+	}
+
+	void Shader::SetInt(char* varName, int a, int b, int c, int d)
+	{
+		glUniform4i(glGetUniformLocation(shaderID, varName), a, b, c, d);
+	}
+
+	void Shader::SetUInt(char* varName, unsigned int a)
+	{
+		glUniform1ui(glGetUniformLocation(shaderID, varName), a);
+	}
+
+	void Shader::SetUInt(char* varName, unsigned int a, unsigned int b)
+	{
+		glUniform2ui(glGetUniformLocation(shaderID, varName), a, b);
+	}
+
+	void Shader::SetUInt(char* varName, unsigned int a, unsigned int b, unsigned int c)
+	{
+		glUniform3ui(glGetUniformLocation(shaderID, varName), a, b, c);
+	}
+
+	void Shader::SetUInt(char* varName, unsigned int a, unsigned int b, unsigned int c, unsigned int d)
+	{
+		glUniform4ui(glGetUniformLocation(shaderID, varName), a, b, c, d);
+	}
+
+	void Shader::SetMatrix(char* varName, unsigned int count, bool transpose, const float* value)
+	{
+		glUniformMatrix4fv(glGetUniformLocation(shaderID, varName), count, transpose, value);
 	}
 }
